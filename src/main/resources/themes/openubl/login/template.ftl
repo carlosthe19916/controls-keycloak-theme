@@ -55,7 +55,7 @@
 <div class="pf-c-login">
   <div class="pf-c-login__container">
     <header class="pf-c-login__header">
-      <img class="pf-c-brand" src="${url.resourcesPath}/${properties.kcLogo!}" alt="${properties.kcLogoAlt!}" />
+      <img class="pf-c-brand" src="${url.resourcesPath}/img/pf_logo_color.svg" alt="Project OpenUBL Logo" />
     </header>
     
     <main class="pf-c-login__main">
@@ -63,18 +63,25 @@
         <h1 class="pf-c-title pf-m-3xl">Log in to your account</h1>
         <p class="pf-c-login__main-header-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <#if realm.internationalizationEnabled>
-            <div class="pf-c-dropdown">
-            <button class="pf-c-dropdown__toggle" type="button" id="login-demo-dropdown-select-button" aria-expanded="false">
-                <span class="pf-c-dropdown__toggle-text">${locale.current}</span>
-                <span class="pf-c-dropdown__toggle-icon">
+            <div class="pf-c-dropdown kc-dropdown" id="kc-locale-dropdown">
+              <button class="pf-c-dropdown__toggle" type="button" id="kc-current-locale-link" aria-expanded="true">
+                  <span class="pf-c-dropdown__toggle-text">${locale.current}</span>
+                  <span class="pf-c-dropdown__toggle-icon">
                     <i class="fas fa-caret-down" aria-hidden="true"></i>
-                </span>
-            </button>
-            <div class="pf-c-dropdown__menu" hidden>[Panel contents here]</div>
+                  </span>
+              </button>
+              <ul class="pf-c-dropdown__menu" aria-labelledby="dropdown-expanded-button" hidden>
+                <#list locale.supported as l>
+                  <li>
+                    <a class="pf-c-dropdown__menu-item kc-dropdown-item" href="${l.url}">${l.label}</a>
+                  </li>
+                </#list>                
+              </ul>
             </div>
         </#if>
       </header>
-      <div class="pf-c-login__main-body">
+      
+      <#--  <div class="pf-c-login__main-body">
         <form novalidate class="pf-c-form">
           <p class="pf-c-form__helper-text pf-m-error pf-m-hidden">
             <span class="pf-c-form__helper-text-icon">
@@ -106,6 +113,7 @@
           </div>
         </form>
       </div>
+      
       <footer class="pf-c-login__main-footer">
         <ul class="pf-c-login__main-footer-links">
           <li class="pf-c-login__main-footer-links-item">
@@ -152,7 +160,9 @@
             <a href="#">Forgot username or password?</a>
           </p>
         </div>
-      </footer>
+      </footer>  -->
+      
+      <#nested "content">
     </main>
     
     <footer class="pf-c-login__footer">

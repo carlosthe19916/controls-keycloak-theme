@@ -1,0 +1,8 @@
+{
+  "name": "openubl-keycloak-theme",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@patternfly/patternfly": "^4.70.2"
+  }
+}
