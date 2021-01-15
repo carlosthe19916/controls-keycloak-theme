@@ -18,9 +18,9 @@ jobs:
         env:
           KEYCLOAK_USER: admin
           KEYCLOAK_PASSWORD: admin
-        volumes:
-          - /tmp/controls-keycloak-theme.jar:/opt/jboss/keycloak/standalone/deployments/controls-keycloak-theme.jar
-          # -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments --name keycloak
+        # volumes:
+        #   - /tmp:/opt/jboss/keycloak/standalone/deployments
+        #   # -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments --name keycloak
         options: >-
           --name keycloak
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
