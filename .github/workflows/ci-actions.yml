@@ -10,22 +10,37 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         browser: [chrome, firefox]
+    # services:
+    #   keycloak:
+    #     image: quay.io/keycloak/keycloak:12.0.1
+    #     ports:
+    #       - 8180:8080
+    #     env:
+    #       KEYCLOAK_USER: admin
+    #       KEYCLOAK_PASSWORD: admin
+    #     # volumes:
+    #     #   - /tmp:/opt/jboss/keycloak/standalone/deployments
+    #     #   # -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments --name keycloak
+    #     options: >-
+    #       --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
     container:
-      keycloak:
-        image: quay.io/keycloak/keycloak:12.0.1
-        ports:
-          - 8180:8080
-        env:
-          KEYCLOAK_USER: admin
-          KEYCLOAK_PASSWORD: admin
-        # volumes:
-        #   - /tmp:/opt/jboss/keycloak/standalone/deployments
-        #   # -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments --name keycloak
-        options: >-
-          --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5        
+      image: quay.io/keycloak/keycloak:12.0.1
+      ports:
+        - 8180:8080
+      env:
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: admin
+      # volumes:
+      #   - /tmp:/opt/jboss/keycloak/standalone/deployments
+      #   # -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments --name keycloak
+      options: >-
+        --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
+        --health-interval 10s
+        --health-timeout 5s
+        --health-retries 5
     steps:
       - name: Checkout
         uses: actions/checkout@v2
