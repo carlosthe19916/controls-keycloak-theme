@@ -21,7 +21,7 @@ jobs:
         # volumes:
         #   - ${{ github.workspace }}/opt/jboss/keycloak/standalone/deployments:/opt/jboss/keycloak/standalone/deployments
         options: >-          
-          -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments:rw
+          -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments:rw --name deployments
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
           --health-timeout 5s
@@ -44,6 +44,10 @@ jobs:
           password: admin
           kcadm: update realms/master -s loginTheme=konveyor
       - run: sleep 30s
+      - name: Restart Keycloak
+        uses: docker://docker
+        with:
+          args: docker restart deployments
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
