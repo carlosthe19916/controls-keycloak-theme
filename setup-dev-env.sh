@@ -12,9 +12,9 @@ xmlstarlet ed \
 -u '/s:server/s:profile/su:subsystem/su:theme/su:staticMaxAge' -v "-1" \
 -u '/s:server/s:profile/su:subsystem/su:theme/su:cacheThemes' -v "false" \
 -u '/s:server/s:profile/su:subsystem/su:theme/su:cacheTemplates' -v "false" \
--u '/s:server/s:profile/su:subsystem/su:theme/su:dir' -v "$(pwd)/src/main/resources/themes" \
+-u '/s:server/s:profile/su:subsystem/su:theme/su:dir' -v "$(pwd)/src/main/resources/theme" \
 workspace/keycloak-*/standalone/configuration/standalone.xml
 
-cp -r workspace/keycloak-*/themes/* src/main/resources/themes/
+cp -r workspace/keycloak-*/themes/* src/main/resources/theme/
 
 echo "You can start the server using ./workspace/keycloak-$KcVersion/bin/standalone.sh"

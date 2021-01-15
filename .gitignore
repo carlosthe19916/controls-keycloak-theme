@@ -1,3 +1,5 @@
 workspace/
-src/main/resources/themes/*
-!src/main/resources/themes/konveyor
+src/main/resources/theme/*
+!src/main/resources/theme/konveyor
+
+target/*
