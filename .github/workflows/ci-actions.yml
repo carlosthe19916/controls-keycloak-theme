@@ -42,7 +42,7 @@ jobs:
           server: http://keycloak:8080/auth
           username: admin
           password: admin
-          kcadm: update realms/master -s loginTheme=keycloak      
+          kcadm: update realms/master -s loginTheme=konveyor      
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
