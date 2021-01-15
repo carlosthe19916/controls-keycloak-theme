@@ -21,7 +21,7 @@ jobs:
         # volumes:
         #   - /tmp:/opt/jboss/keycloak/standalone/deployments:z
         options: >-
-          -v ${{ github.workspace }}/target/controls-keycloak-theme.jar:/opt/jboss/keycloak/standalone/deployments/controls-keycloak-theme.jar:z
+          -v /tmp/controls-keycloak-theme.jar:/opt/jboss/keycloak/standalone/deployments/controls-keycloak-theme.jar:z
           --name keycloak
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
@@ -35,8 +35,8 @@ jobs:
           java-version: 11
       - name: Maven
         run: mvn package
-      # - name: Deploy
-      #   run: cp target/controls-keycloak-theme.jar deployments/controls-keycloak-theme.jar
+      - name: Deploy
+        run: cp target/controls-keycloak-theme.jar /tmp/controls-keycloak-theme.jar
       - name: Restart keycloak
         uses: docker://docker
         with:
