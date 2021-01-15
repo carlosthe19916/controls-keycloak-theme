@@ -36,7 +36,7 @@ jobs:
       - name: Maven
         run: mvn package
       - name: Deploy
-        run: cp target/controls-keycloak-theme.jar /tmp/controls-keycloak-theme.jar
+        run: sudo cp target/controls-keycloak-theme.jar /tmp/controls-keycloak-theme.jar
       - name: Restart keycloak
         uses: docker://docker
         with:
