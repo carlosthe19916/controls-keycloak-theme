@@ -39,7 +39,7 @@ jobs:
           server: http://keycloak:8080/auth
           username: admin
           password: admin
-          jboss-cli: -c --controller=http://keycloak:9990 --command="deploy ./target/controls-keycloak-theme.jar"
+          jboss-cli: -c --controller=keycloak:9990 --command="deploy ./target/controls-keycloak-theme.jar"
           cmd: update realms/master -s loginTheme=konveyor
       - name: Cypress run
         uses: cypress-io/github-action@v2
