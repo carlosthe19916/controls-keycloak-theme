@@ -24,7 +24,8 @@ jobs:
           name: konveyor/controls-keycloak-theme
           dockerfile: Dockerfile
           snapshot: false
-          tags: "test"    
+          tags: "test"
+          no_push: true
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
