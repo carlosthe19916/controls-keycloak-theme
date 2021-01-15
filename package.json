@@ -1,0 +1,13 @@
+{
+  "name": "controls-keycloak-theme",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "start": "ls /opt/jboss/keycloak/standalone/deployments"
+  },
+  "dependencies": {
+    "cypress": "^6.2.1"
+  }
+}
