@@ -37,10 +37,10 @@ jobs:
         run: mvn package
       - name: Deploy
         run: cp target/controls-keycloak-theme.jar deployments/controls-keycloak-theme.jar
-      - name: Restart keycloak
-        uses: docker://docker
-        with:
-          args: docker restart keycloak
+      # - name: Restart keycloak
+      #   uses: docker://docker
+      #   with:
+      #     args: docker restart keycloak
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@master
         with:
