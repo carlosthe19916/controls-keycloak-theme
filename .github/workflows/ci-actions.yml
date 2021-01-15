@@ -20,8 +20,7 @@ jobs:
           KEYCLOAK_PASSWORD: admin
         # volumes:
         #   - ${{ github.workspace }}/opt/jboss/keycloak/standalone/deployments:/opt/jboss/keycloak/standalone/deployments
-        options: >-
-          -v ${{ github.workspace }}/target/deployments:/opt/jboss/keycloak/standalone/deployments
+        options: >-          
           -v /__w/controls-keycloak-theme/controls-keycloak-theme:/opt/jboss/keycloak/standalone/deployments:rw
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
