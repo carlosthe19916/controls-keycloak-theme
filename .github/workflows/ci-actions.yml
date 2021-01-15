@@ -18,8 +18,8 @@ jobs:
         env:
           KEYCLOAK_USER: admin
           KEYCLOAK_PASSWORD: admin
-        volumes:
-          - ${{ github.workspace }}/target:/opt/jboss/keycloak/standalone/deployments
+        # volumes:
+        #   - ${{ github.workspace }}/target:/opt/jboss/keycloak/standalone/deployments
         options: >-
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
@@ -39,7 +39,14 @@ jobs:
           server: http://keycloak:8080/auth
           username: admin
           password: admin
-          cmd: update realms/master -s loginTheme=konveyor           
+          jboss-cli: -c --controller=keycloak:9990 --command="deploy ./target/controls-keycloak-theme.jar"
+      - name: Keycloak Admin CLI
+        uses: carlosthe19916/keycloak-action@master
+        with:
+          server: http://keycloak:8080/auth
+          username: admin
+          password: admin
+          cmd: update realms/master -s loginTheme=konveyor
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
