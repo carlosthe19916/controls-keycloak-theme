@@ -21,7 +21,7 @@ jobs:
         # volumes:
         #   - ${{ github.workspace }}/opt/jboss/keycloak/standalone/deployments:/opt/jboss/keycloak/standalone/deployments
         options: >-          
-          -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments:rw --name deployments
+          -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments:rw --name keycloak
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
           --health-timeout 5s
@@ -46,7 +46,7 @@ jobs:
       - name: Restart Keycloak
         uses: docker://docker
         with:
-          args: docker restart deployments
+          args: docker restart keycloak
       - run: sleep 30s
       - name: Cypress run
         uses: cypress-io/github-action@v2
