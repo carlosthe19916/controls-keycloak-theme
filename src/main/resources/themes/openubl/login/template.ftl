@@ -1,187 +1,170 @@
-<#macro registrationLayout bodyClass="" displayInfo=false displayMessage=true displayRequiredFields=false showAnotherWayIfPresent=true>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" class="${properties.kcHtmlClass!}">
+<#macro registrationLayout bodyClass="" displayInfo=false displayResetPassword=false displayMessage=true displayRequiredFields=false showAnotherWayIfPresent=true>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="robots" content="noindex, nofollow">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="robots" content="noindex, nofollow">
 
-    <#if properties.meta?has_content>
-        <#list properties.meta?split(' ') as meta>
-            <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
-        </#list>
-    </#if>
-    <title>${msg("loginTitle",(realm.displayName!''))}</title>
-    <link rel="icon" href="${url.resourcesPath}/img/favicon.ico" />
-    <#if properties.stylesCommon?has_content>
-        <#list properties.stylesCommon?split(' ') as style>
-            <link href="${url.resourcesCommonPath}/${style}" rel="stylesheet" />
-        </#list>
-    </#if>
-    <#if properties.styles?has_content>
-        <#list properties.styles?split(' ') as style>
-            <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
-        </#list>
-    </#if>
-    <#if properties.scripts?has_content>
-        <#list properties.scripts?split(' ') as script>
-            <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
-        </#list>
-    </#if>
-    <#if scripts??>
-        <#list scripts as script>
-            <script src="${script}" type="text/javascript"></script>
-        </#list>
-    </#if>
-</head>
-
-<body class="${properties.kcBodyClass!}">
-
-<div class="pf-c-background-image">
-  <svg xmlns="http://www.w3.org/2000/svg" class="pf-c-background-image__filter" width="0" height="0">
-    <filter id="image_overlay">
-      <feColorMatrix type="matrix" values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 0"></feColorMatrix>
-      <feComponentTransfer color-interpolation-filters="sRGB" result="duotone">
-        <feFuncR type="table" tableValues="0.086274509803922 0.43921568627451"></feFuncR>
-        <feFuncG type="table" tableValues="0.086274509803922 0.43921568627451"></feFuncG>
-        <feFuncB type="table" tableValues="0.086274509803922 0.43921568627451"></feFuncB>
-        <feFuncA type="table" tableValues="0 1"></feFuncA>
-      </feComponentTransfer>
-    </filter>
-  </svg>
-</div>
-
-<div class="pf-c-login">
-  <div class="pf-c-login__container">
-    <header class="pf-c-login__header">
-      <img class="pf-c-brand" src="${url.resourcesPath}/img/pf_logo_color.svg" alt="Project OpenUBL Logo" />
-    </header>
-    
-    <main class="pf-c-login__main">
-      <header class="pf-c-login__main-header">
-        <h1 class="pf-c-title pf-m-3xl">Log in to your account</h1>
-        <p class="pf-c-login__main-header-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <#if realm.internationalizationEnabled>
-            <div class="pf-c-dropdown kc-dropdown" id="kc-locale-dropdown">
-              <button class="pf-c-dropdown__toggle" type="button" id="kc-current-locale-link" aria-expanded="true">
-                  <span class="pf-c-dropdown__toggle-text">${locale.current}</span>
-                  <span class="pf-c-dropdown__toggle-icon">
-                    <i class="fas fa-caret-down" aria-hidden="true"></i>
-                  </span>
-              </button>
-              <ul class="pf-c-dropdown__menu" aria-labelledby="dropdown-expanded-button" hidden>
-                <#list locale.supported as l>
-                  <li>
-                    <a class="pf-c-dropdown__menu-item kc-dropdown-item" href="${l.url}">${l.label}</a>
-                  </li>
-                </#list>                
-              </ul>
-            </div>
+        <#if properties.meta?has_content>
+            <#list properties.meta?split(' ') as meta>
+                <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
+            </#list>
         </#if>
-      </header>
-      
-      <#--  <div class="pf-c-login__main-body">
-        <form novalidate class="pf-c-form">
-          <p class="pf-c-form__helper-text pf-m-error pf-m-hidden">
-            <span class="pf-c-form__helper-text-icon">
-              <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
-            </span>Invalid login credentials.
-          </p>
-          <div class="pf-c-form__group">
-            <label class="pf-c-form__label" for="login-demo-form-username">
-              <span class="pf-c-form__label-text">Username</span>
-              <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
-            </label>
-            <input class="pf-c-form-control" required input="true" type="text" id="login-demo-form-username" name="login-demo-form-username" />
-          </div>
-          <div class="pf-c-form__group">
-            <label class="pf-c-form__label" for="login-demo-form-password">
-              <span class="pf-c-form__label-text">Password</span>
-              <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
-            </label>
-            <input class="pf-c-form-control" required input="true" type="password" id="login-demo-form-password" name="login-demo-form-password" />
-          </div>
-          <div class="pf-c-form__group">
-            <div class="pf-c-check">
-              <input class="pf-c-check__input" type="checkbox" type="checkbox" id="login-demo-checkbox" name="login-demo-checkbox" />
-              <label class="pf-c-check__label" for="login-demo-checkbox">Keep me logged in for 30 days.</label>
-            </div>
-          </div>
-          <div class="pf-c-form__group pf-m-action">
-            <button class="pf-c-button pf-m-primary pf-m-block" type="submit">Log in</button>
-          </div>
-        </form>
-      </div>
-      
-      <footer class="pf-c-login__main-footer">
-        <ul class="pf-c-login__main-footer-links">
-          <li class="pf-c-login__main-footer-links-item">
-            <a href="#" class="pf-c-login__main-footer-links-item-link" aria-label="Log in with Google">
-              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-              </svg>
-            </a>
-          </li>
-          <li class="pf-c-login__main-footer-links-item">
-            <a href="#" class="pf-c-login__main-footer-links-item-link" aria-label="Log in with Github">
-              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path>
-              </svg>
-            </a>
-          </li>
-          <li class="pf-c-login__main-footer-links-item">
-            <a href="#" class="pf-c-login__main-footer-links-item-link" aria-label="Log in with Dropbox">
-              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 528 512">
-                <path d="M264.4 116.3l-132 84.3 132 84.3-132 84.3L0 284.1l132.3-84.3L0 116.3 132.3 32l132.1 84.3zM131.6 395.7l132-84.3 132 84.3-132 84.3-132-84.3zm132.8-111.6l132-84.3-132-83.6L395.7 32 528 116.3l-132.3 84.3L528 284.8l-132.3 84.3-131.3-85z"></path>
-              </svg>
-            </a>
-          </li>
-          <li class="pf-c-login__main-footer-links-item">
-            <a href="#" class="pf-c-login__main-footer-links-item-link" aria-label="Log in with Facebook">
-              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path d="M448 56.7v398.5c0 13.7-11.1 24.7-24.7 24.7H309.1V306.5h58.2l8.7-67.6h-67v-43.2c0-19.6 5.4-32.9 33.5-32.9h35.8v-60.5c-6.2-.8-27.4-2.7-52.2-2.7-51.6 0-87 31.5-87 89.4v49.9h-58.4v67.6h58.4V480H24.7C11.1 480 0 468.9 0 455.3V56.7C0 43.1 11.1 32 24.7 32h398.5c13.7 0 24.8 11.1 24.8 24.7z"></path>
-              </svg>
-            </a>
-          </li>
-          <li class="pf-c-login__main-footer-links-item">
-            <a href="#" class="pf-c-login__main-footer-links-item-link" aria-label="Log in with Gitlab">
-              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path d="M29.782 199.732L256 493.714 8.074 309.699c-6.856-5.142-9.712-13.996-7.141-21.993l28.849-87.974zm75.405-174.806c-3.142-8.854-15.709-8.854-18.851 0L29.782 199.732h131.961L105.187 24.926zm56.556 174.806L256 493.714l94.257-293.982H161.743zm349.324 87.974l-28.849-87.974L256 493.714l247.926-184.015c6.855-5.142 9.711-13.996 7.141-21.993zm-85.404-262.78c-3.142-8.854-15.709-8.854-18.851 0l-56.555 174.806h131.961L425.663 24.926z"></path>
-              </svg>
-            </a>
-          </li>
-        </ul>
-        <div class="pf-c-login__main-footer-band">
-          <p class="pf-c-login__main-footer-band-item">Need an account?
-            <a href="https://www.patternfly.org/">Sign up.</a>
-          </p>
-          <p class="pf-c-login__main-footer-band-item">
-            <a href="#">Forgot username or password?</a>
-          </p>
-        </div>
-      </footer>  -->
-      
-      <#nested "content">
-    </main>
-    
-    <footer class="pf-c-login__footer">
-      <p>The first and the biggest Open Source project to allow you start using the Universal Bussiness Language (UBL) in your own software.</p>
-      <ul class="pf-c-list pf-m-inline">
-        <li>
-          <a href="https://project-openubl.github.io/" target="_blank" rel="noopener noreferrer">Terms of use</a>
-        </li>
-        <li>
-          <a href="https://projectopenubl.zulipchat.com/" target="_blank" rel="noopener noreferrer">Help</a>
-        </li>
-        <li>
-          <a href="https://project-openubl.github.io/" target="_blank" rel="noopener noreferrer">Privacy policy</a>
-        </li>
-      </ul>
-    </footer>
-  </div>
-</div>
+        <title>${msg("loginTitle",(realm.displayName!''))}</title>
+        <link rel="icon" href="${url.resourcesPath}/img/favicon.ico"/>
+        <#if properties.stylesCommon?has_content>
+            <#list properties.stylesCommon?split(' ') as style>
+                <link href="${url.resourcesCommonPath}/${style}" rel="stylesheet"/>
+            </#list>
+        </#if>
+        <#if properties.styles?has_content>
+            <#list properties.styles?split(' ') as style>
+                <link href="${url.resourcesPath}/${style}" rel="stylesheet"/>
+            </#list>
+        </#if>
+        <#if properties.scripts?has_content>
+            <#list properties.scripts?split(' ') as script>
+                <script src="${url.resourcesPath}/${script}" type="text/javascript"></script>
+            </#list>
+        </#if>
+        <#if scripts??>
+            <#list scripts as script>
+                <script src="${script}" type="text/javascript"></script>
+            </#list>
+        </#if>
 
-</body>
-</html>
+        <script type="module" src="${url.resourcesPath}/node_modules/@patternfly/pfe-dropdown/dist/pfe-dropdown.min.js"></script>
+    </head>
+
+    <body>
+
+      <div class="pf-c-background-image">
+        <svg xmlns="http://www.w3.org/2000/svg" class="pf-c-background-image__filter" width="0" height="0">
+          <filter id="image_overlay">
+            <feColorMatrix type="matrix" values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 0"></feColorMatrix>
+            <feComponentTransfer color-interpolation-filters="sRGB" result="duotone">
+              <feFuncR type="table" tableValues="0.086274509803922 0.43921568627451"></feFuncR>
+              <feFuncG type="table" tableValues="0.086274509803922 0.43921568627451"></feFuncG>
+              <feFuncB type="table" tableValues="0.086274509803922 0.43921568627451"></feFuncB>
+              <feFuncA type="table" tableValues="0 1"></feFuncA>
+            </feComponentTransfer>
+          </filter>
+        </svg>
+      </div>
+
+      <div class="pf-c-login">
+        <div class="pf-c-login__container">
+          <header class="pf-c-login__header">
+            <img class="pf-c-brand" src="${url.resourcesPath}/img/pf_logo_color.svg" alt="Project OpenUBL Logo"/>
+          </header>
+
+          <main class="pf-c-login__main">
+            <header class="pf-c-login__main-header">              
+              <#if !(auth?has_content && auth.showUsername() && !auth.showResetCredentials())>
+                <h1 class="pf-c-title pf-m-3xl"><#nested "header"></h1>
+              <#else>
+                <#nested "show-username">
+                <div id="kc-username" class="${properties.kcFormGroupClass!}">
+                    <label id="kc-attempted-username">${auth.attemptedUsername}</label>
+                    <a id="reset-login" href="${url.loginRestartFlowUrl}">
+                        <div class="kc-login-tooltip">
+                            <i class="${properties.kcResetFlowIcon!}"></i>
+                            <span class="kc-tooltip-text">${msg("restartLoginTooltip")}</span>
+                        </div>
+                    </a>
+                </div>
+              </#if>            
+
+              <#--  Languages dropdown  -->
+              <#if realm.internationalizationEnabled  && locale.supported?size gt 1>
+                <div class="pf-c-dropdown">
+                  <pfe-dropdown label="${locale.current}">
+                    <#list locale.supported as l>
+                      <pfe-dropdown-item item-type="link">
+                        <a href="${l.url}">${l.label}</a>
+                      </pfe-dropdown-item>
+                    </#list>
+                  </pfe-dropdown>
+                </div>
+              </#if>
+            </header>
+
+            <div class="pf-c-login__main-body">
+              <#if displayMessage && message?has_content && (message.type != 'warning' || !isAppInitiatedAction??)>
+                <div class="alert-${message.type} ${properties.kcAlertClass!} pf-m-<#if message.type = 'error'>danger<#else>${message.type}</#if>">
+                  <div class="pf-c-alert__icon">
+                    <#if message.type = 'success'><span class="${properties.kcFeedbackSuccessIcon!}"></span></#if>
+                    <#if message.type = 'warning'><span class="${properties.kcFeedbackWarningIcon!}"></span></#if>
+                    <#if message.type = 'error'><span class="${properties.kcFeedbackErrorIcon!}"></span></#if>
+                    <#if message.type = 'info'><span class="${properties.kcFeedbackInfoIcon!}"></span></#if>
+                  </div>
+                  <span class="${properties.kcAlertTitleClass!}">${kcSanitize(message.summary)?no_esc}</span>
+                </div>
+              </#if>
+
+              <#nested "form">
+
+              <#if auth?has_content && auth.showTryAnotherWayLink() && showAnotherWayIfPresent>
+                <form id="kc-select-try-another-way-form" action="${url.loginAction}" method="post">
+                  <div class="${properties.kcFormGroupClass!}">
+                      <input type="hidden" name="tryAnotherWay" value="on"/>
+                      <a href="#" id="try-another-way" onclick="document.forms['kc-select-try-another-way-form'].submit();return false;">${msg("doTryAnotherWay")}</a>
+                  </div>
+                </form>
+              </#if>
+
+              
+            </div>
+
+            <footer class="pf-c-login__main-footer">              
+              <#if realm.password && social.providers??>
+                <ul class="pf-c-login__main-footer-links">
+                    <#list social.providers as p>
+                        <li id="social-${p.alias}" class="pf-c-login__main-footer-links-item">
+                          <a href="${p.loginUrl}" class="pf-c-login__main-footer-links-item-link" aria-label="Log in with ${p.displayName!}">
+                            <#if p.iconClasses?has_content>
+                              <i class="${properties.kcCommonLogoIdP!} ${p.iconClasses!}" aria-hidden="true"></i>
+                              <span class="${properties.kcFormSocialAccountNameClass!} kc-social-icon-text">${p.displayName!}</span>
+                            <#else>
+                              <span class="${properties.kcFormSocialAccountNameClass!}">${p.displayName!}</span>
+                            </#if>
+                          </a>
+                        </li>
+                    </#list>
+                </ul>
+              </#if>
+              <#if displayInfo || displayResetPassword>
+                <div class="pf-c-login__main-footer-band">
+                  <#if displayInfo>
+                    <#nested "info">
+                  </#if>
+                  <#if displayResetPassword>
+                    <#nested "resetPassword">
+                  </#if>
+                </div>
+              </#if>
+            </footer>
+          </main>
+
+          <footer class="pf-c-login__footer">
+            <p>The first and the biggest Open Source project to allow you start using the Universal Bussiness Language (UBL) in your own software.</p>
+            <ul class="pf-c-list pf-m-inline">
+              <li>
+                <a href="https://project-openubl.github.io/" target="_blank" rel="noopener noreferrer">Terms of use</a>
+              </li>
+              <li>
+                <a href="https://projectopenubl.zulipchat.com/" target="_blank" rel="noopener noreferrer">Help</a>
+              </li>
+              <li>
+                <a href="https://project-openubl.github.io/" target="_blank" rel="noopener noreferrer">Privacy policy</a>
+              </li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+
+    </body>
+    </html>
 </#macro>
