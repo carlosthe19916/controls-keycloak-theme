@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         browser: [chrome, firefox]
-    services:
+    container:
       keycloak:
         image: quay.io/keycloak/keycloak:12.0.1
         ports:
@@ -40,13 +40,13 @@ jobs:
       #   uses: docker://docker
       #   with:
       #     args: docker restart keycloak
-      # - name: Keycloak Admin CLI
-      #   uses: carlosthe19916/keycloak-action@master
-      #   with:
-      #     server: http://keycloak:8080/auth
-      #     username: admin
-      #     password: admin
-      #     kcadm: update realms/master -s loginTheme=konveyor      
+      - name: Keycloak Admin CLI
+        uses: carlosthe19916/keycloak-action@master
+        with:
+          server: http://keycloak:8080/auth
+          username: admin
+          password: admin
+          kcadm: update realms/master -s loginTheme=keycloak      
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
