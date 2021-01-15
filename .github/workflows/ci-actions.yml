@@ -46,7 +46,7 @@ jobs:
           record: false
           start: yarn run start
           wait-on-timeout: 120
-          config: pageLoadTimeout=100000, baseUrl=http://keycloak:8080
+          config: pageLoadTimeout=100000,baseUrl=http://keycloak:8080
           browser: ${{ matrix.browser }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
