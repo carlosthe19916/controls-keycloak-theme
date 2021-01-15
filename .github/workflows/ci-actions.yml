@@ -21,7 +21,7 @@ jobs:
         # volumes:
         #   - ${{ github.workspace }}/opt/jboss/keycloak/standalone/deployments:/opt/jboss/keycloak/standalone/deployments
         options: >-          
-          -v /__w/controls-keycloak-theme/controls-keycloak-theme:/opt/jboss/keycloak/standalone/deployments:rw
+          -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments:rw
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
           --health-timeout 5s
@@ -35,7 +35,7 @@ jobs:
       - name: Maven
         run: mvn package
       - name: Deploy
-        run: cp target/controls-keycloak-theme.jar /__w/controls-keycloak-theme/controls-keycloak-theme/controls-keycloak-theme.jar
+        run: cp target/controls-keycloak-theme.jar deployments/controls-keycloak-theme.jar
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@master
         with:
