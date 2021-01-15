@@ -149,16 +149,16 @@
           </main>
 
           <footer class="pf-c-login__footer">
-            <p>The first and the biggest Open Source project to allow you start using the Universal Bussiness Language (UBL) in your own software.</p>
+            <p>This is placeholder text only. Use this area to place any information or introductory message about your application that may be relevant to users.</p>
             <ul class="pf-c-list pf-m-inline">
               <li>
-                <a href="https://project-openubl.github.io/" target="_blank" rel="noopener noreferrer">Terms of use</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">Terms of use</a>
               </li>
               <li>
-                <a href="https://projectopenubl.zulipchat.com/" target="_blank" rel="noopener noreferrer">Help</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">Help</a>
               </li>
               <li>
-                <a href="https://project-openubl.github.io/" target="_blank" rel="noopener noreferrer">Privacy policy</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">Privacy policy</a>
               </li>
             </ul>
           </footer>

@@ -1,4 +1,1 @@
-FROM quay.io/keycloak/keycloak:latest
-
-ADD openubl-realm.json /tmp/openubl-realm.json
-ENV KEYCLOAK_IMPORT=/tmp/openubl-realm.json
+FROM quay.io/keycloak/keycloak:12.0.1
