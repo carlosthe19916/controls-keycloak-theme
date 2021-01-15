@@ -9,24 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        browser: [chrome, firefox]
-    services:
-      keycloak:
-        image: quay.io/keycloak/keycloak:12.0.1
-        ports:
-          - 8180:8080
-        env:
-          KEYCLOAK_USER: admin
-          KEYCLOAK_PASSWORD: admin
-        # volumes:
-        #   - /tmp:/opt/jboss/keycloak/standalone/deployments:z
-        options: >-
-          -v /tmp/controls-keycloak-theme.jar:/opt/jboss/keycloak/standalone/deployments/controls-keycloak-theme.jar:z
-          --name keycloak
-          --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5    
+        browser: [chrome, firefox]  
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,26 +18,21 @@ jobs:
           java-version: 11
       - name: Maven
         run: mvn package
-      - name: Deploy
-        run: sudo cp target/controls-keycloak-theme.jar /tmp/controls-keycloak-theme.jar
-      # - name: Restart keycloak
-      #   uses: docker://docker
-      #   with:
-      #     args: docker restart keycloak
-      - name: Keycloak Admin CLI
-        uses: carlosthe19916/keycloak-action@master
+      - name: Push to Quay.io
+        uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          server: http://keycloak:8080/auth
-          username: admin
-          password: admin
-          kcadm: update realms/master -s loginTheme=konveyor      
+          name: konveyor/controls-keycloak-theme
+          dockerfile: Dockerfile
+          snapshot: false
+          tags: "test"    
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           record: false
-          start: yarn run start
+          start: yarn run keycloak:start
+          wait-on: 'http://localhost:8080/auth'
           wait-on-timeout: 120
-          config: pageLoadTimeout=100000,baseUrl=http://localhost:8180
+          config: pageLoadTimeout=100000,baseUrl=http://localhost:8080
           browser: ${{ matrix.browser }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
