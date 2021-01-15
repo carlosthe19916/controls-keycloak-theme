@@ -18,3 +18,9 @@ The script above will download Keycloak and configure files. Now you can init Ke
 
 - Open your browser using http://localhost:8080/auth and create your admin user.
 - Select the new theme in the Keycloak console
+
+## Take a look at it
+
+```shell
+docker run -p 8180:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/carlosthe19916/controls-keycloak-theme
+```
