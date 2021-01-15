@@ -37,6 +37,10 @@ jobs:
         run: mvn package
       - name: Deploy
         run: cp target/controls-keycloak-theme.jar deployments/controls-keycloak-theme.jar
+      - name: Restart keycloak
+        uses: docker://docker
+        with:
+          args: docker restart keycloak
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@master
         with:
@@ -44,11 +48,6 @@ jobs:
           username: admin
           password: admin
           kcadm: update realms/master -s loginTheme=konveyor      
-      - name: Restart keycloak
-        uses: docker://docker
-        with:
-          args: docker restart keycloak
-      - run: sleep 30s
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
