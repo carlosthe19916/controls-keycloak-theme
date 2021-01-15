@@ -18,10 +18,10 @@ jobs:
         env:
           KEYCLOAK_USER: admin
           KEYCLOAK_PASSWORD: admin
-        # volumes:
-        #   - ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments          
+        volumes:
+          - ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments          
+          # -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments --name keycloak
         options: >-
-          -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments --name keycloak
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
           --health-timeout 5s
