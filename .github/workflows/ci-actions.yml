@@ -18,8 +18,9 @@ jobs:
         env:
           KEYCLOAK_USER: admin
           KEYCLOAK_PASSWORD: admin
-        # volumes:
-        #   - ${{ github.workspace }}/target:/opt/jboss/keycloak/standalone/deployments
+        volumes:
+          # - ${{ github.workspace }}/target:/opt/jboss/keycloak/standalone/deployments
+          - /opt/jboss/keycloak
         options: >-
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
@@ -28,19 +29,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # - uses: actions/setup-java@v1
-      #   with:
-      #     java-version: 8
-      # - name: Maven
-      #   run: mvn package    
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Maven
+        run: mvn package
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@master
         with:
           server: http://keycloak:8080/auth
           username: admin
           password: admin
-          jboss-cli: -c --controller=keycloak:9990 --command="deploy ./target/controls-keycloak-theme.jar"
-          cmd: update realms/master -s loginTheme=konveyor
+          # jboss-cli: -c --controller=keycloak:9990 --command="deploy ./target/controls-keycloak-theme.jar"
+          kcadm: update realms/master -s loginTheme=konveyor
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
