@@ -19,7 +19,7 @@ jobs:
           KEYCLOAK_USER: admin
           KEYCLOAK_PASSWORD: admin
         volumes:
-          - ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments          
+          - ${{ github.workspace }}/target:/opt/jboss/keycloak/standalone/deployments          
           # -v ${{ github.workspace }}/deployments:/opt/jboss/keycloak/standalone/deployments --name keycloak
         options: >-
           --name keycloak
