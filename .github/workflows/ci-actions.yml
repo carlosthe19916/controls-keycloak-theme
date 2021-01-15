@@ -20,7 +20,7 @@ jobs:
           KEYCLOAK_PASSWORD: admin
         volumes:
           # - ${{ github.workspace }}/target:/opt/jboss/keycloak/standalone/deployments
-          - target:/opt/jboss/keycloak/themes
+          - /opt/jboss/keycloak/standalone/deployments:/opt/jboss/keycloak/standalone/deployments
         options: >-
           --health-cmd "curl --fail http://localhost:8080/auth || exit 1"
           --health-interval 10s
@@ -32,8 +32,10 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
-      # - name: Maven
-      #   run: mvn package
+      - name: Maven
+        run: mvn package
+      - name: Deploy
+        run: cp target/controls-keycloak-theme.jar /opt/jboss/keycloak/standalone/deployments/controls-keycloak-theme.jar
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@master
         with:
