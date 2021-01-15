@@ -33,14 +33,14 @@ jobs:
       #     java-version: 8
       # - name: Maven
       #   run: mvn package    
-      # - name: Keycloak Admin CLI
-      #   uses: carlosthe19916/keycloak-action@master
-      #   with:
-      #     server: http://keycloak:8080/auth
-      #     username: admin
-      #     password: admin
-      #     jboss-cli: -c --controller=keycloak:9990 --command="deploy ./target/controls-keycloak-theme.jar"
-      #     cmd: update realms/master -s loginTheme=konveyor
+      - name: Keycloak Admin CLI
+        uses: carlosthe19916/keycloak-action@master
+        with:
+          server: http://keycloak:8080/auth
+          username: admin
+          password: admin
+          jboss-cli: -c --controller=keycloak:9990 --command="deploy ./target/controls-keycloak-theme.jar"
+          cmd: update realms/master -s loginTheme=konveyor
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
