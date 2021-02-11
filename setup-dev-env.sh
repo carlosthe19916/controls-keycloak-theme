@@ -1,7 +1,7 @@
 
 #!/usr/bin/env bash
 
-KcVersion=12.0.1
+KcVersion=12.0.2
 wget https://github.com/keycloak/keycloak/releases/download/$KcVersion/keycloak-$KcVersion.tar.gz -P workspace/
 tar xvzf workspace/keycloak-*.tar.gz -C workspace/
 
