@@ -27,6 +27,19 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>carlosthe19916</id>
+            <name>Carlos Esteban Feria Vila</name>
+            <email>carlosthe19916@gmail.com</email>
+            <organization>carlosthe19916</organization>
+            <roles>
+                <role>project-owner</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
+    </developers>
+
     <scm>
         <url>https://github.com/carlosthe19916/controls-keycloak-theme/</url>
         <connection>scm:git:git://github.com/carlosthe19916/controls-keycloak-theme.git</connection>
