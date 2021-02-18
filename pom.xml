@@ -7,6 +7,7 @@
     <version>0.1-SNAPSHOT</version>
 
     <name>Tackle Keycloak Theme</name>
+    <description>Keycloak theme artifacts</description>
     <packaging>jar</packaging>
 
     <properties>
