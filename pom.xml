@@ -4,6 +4,7 @@
 
     <groupId>io.github.carlosthe19916</groupId>
     <artifactId>tackle-keycloak-theme</artifactId>
+    <version>0.1-SNAPSHOT</version>
 
     <name>Tackle Keycloak Theme</name>
     <packaging>jar</packaging>
