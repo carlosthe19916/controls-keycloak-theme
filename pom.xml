@@ -2,12 +2,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <artifactId>keycloak-examples-parent</artifactId>
-        <groupId>org.keycloak</groupId>
-        <version>12.0.1</version>
-    </parent>
-
     <groupId>io.github.carlosthe19916</groupId>
     <artifactId>tackle-keycloak-theme</artifactId>
 
