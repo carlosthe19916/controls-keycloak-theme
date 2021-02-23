@@ -10,6 +10,20 @@ jobs:
         os: [ubuntu-latest]
         browser: [chrome]
         # browser: [chrome, firefox]
+    services:      
+      keycloak-db:
+        image: postgres:13.1
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: keycloak_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,19 +42,21 @@ jobs:
           no_push: true
       - name: Start keycloak
         run: |
-          docker network create konveyor
-
-          docker run -d --name keycloak --network konveyor --network-alias keycloak -p 8080:8080 \
+          docker run -d --name keycloak --network ${{ job.services.keycloak-db.network }} --network-alias keycloak -p 8080:8080 \
           -e KEYCLOAK_USER=admin \
           -e KEYCLOAK_PASSWORD=admin \
-          -e DB_VENDOR=h2 \
+          -e DB_VENDOR=postgres \
+          -e DB_USER=user \
+          -e DB_PASSWORD=password \
+          -e DB_DATABASE=keycloak_db \
+          -e DB_ADDR=keycloak-db \
           konveyor/tackle-keycloak-theme:test
 
           sleep 5s && docker logs keycloak
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@0.4
         with:
-          server: http://localhost:8080/auth
+          server: http://keycloak:8080/auth
           username: admin
           password: admin
           kcadm: update realms/master -s loginTheme=konveyor
