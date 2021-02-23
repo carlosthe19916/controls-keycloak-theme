@@ -8,9 +8,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        browser: [chrome]
-        # browser: [chrome, firefox]
-    services:      
+        browser: [chrome, firefox]
+    services:
       keycloak-db:
         image: postgres:13.1
         ports:
