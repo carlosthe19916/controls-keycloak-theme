@@ -8,7 +8,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        browser: [chrome, firefox]
+        browser: [chrome]
+        # browser: [chrome, firefox]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -20,7 +21,7 @@ jobs:
       - name: Create image
         uses: elgohr/Publish-Docker-Github-Action@3.02
         with:
-          name: konveyor/controls-keycloak-theme
+          name: konveyor/tackle-keycloak-theme
           dockerfile: Dockerfile
           snapshot: false
           tags: "test"
@@ -32,8 +33,8 @@ jobs:
           docker run -d --name keycloak --network konveyor --network-alias keycloak -p 8080:8080 \
           -e KEYCLOAK_USER=admin \
           -e KEYCLOAK_PASSWORD=admin \
-          -e DB_VENDOR=h2
-          konveyor/controls-keycloak-theme:test
+          -e DB_VENDOR=h2 \
+          konveyor/tackle-keycloak-theme:test
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@0.4
         with:
