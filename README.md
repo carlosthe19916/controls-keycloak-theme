@@ -13,7 +13,7 @@ Setup your dev environment executing:
 The script above will download Keycloak and configure files. Now you can init Keycloak:
 
 ```shell
-./workspace/keycloak-12.0.1/bin/standalone.sh
+./workspace/keycloak-12.0.3/bin/standalone.sh
 ```
 
 - Open your browser using http://localhost:8080/auth and create your admin user.

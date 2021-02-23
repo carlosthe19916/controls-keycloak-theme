@@ -4,8 +4,7 @@
   "license": "MIT",
   "scripts": {
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "keycloak:start": "docker run -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_WELCOME_THEME=konveyor konveyor/controls-keycloak-theme:test"
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "cypress": "^6.2.1"

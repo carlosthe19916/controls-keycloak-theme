@@ -3,13 +3,12 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-
   e2e:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
-        browser: [chrome, firefox]  
+        browser: [chrome, firefox]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,20 +17,35 @@ jobs:
           java-version: 11
       - name: Maven
         run: mvn package
-      - name: Push to Quay.io
-        uses: elgohr/Publish-Docker-Github-Action@master
+      - name: Create image
+        uses: elgohr/Publish-Docker-Github-Action@3.02
         with:
           name: konveyor/controls-keycloak-theme
           dockerfile: Dockerfile
           snapshot: false
           tags: "test"
           no_push: true
+      - name: Start keycloak
+        run: |
+          docker network create konveyor
+
+          docker run -d --name keycloak --network konveyor --network-alias keycloak -p 8080:8080 \
+          -e KEYCLOAK_USER=admin \
+          -e KEYCLOAK_PASSWORD=admin \
+          -e DB_VENDOR=h2
+          konveyor/controls-keycloak-theme:test
+      - name: Keycloak Admin CLI
+        uses: carlosthe19916/keycloak-action@0.4
+        with:
+          server: http://keycloak:8080/auth
+          username: admin
+          password: admin
+          kcadm: update realms/master -s loginTheme=konveyor
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           record: false
-          start: yarn run keycloak:start
-          wait-on: 'http://localhost:8080/auth'
+          wait-on: "http://localhost:8080/auth"
           wait-on-timeout: 120
           config: pageLoadTimeout=100000,baseUrl=http://localhost:8080
           browser: ${{ matrix.browser }}
@@ -47,6 +61,3 @@ jobs:
         with:
           name: e2e-videos-${{ matrix.os }}-${{ matrix.browser }}
           path: cypress/videos
-      - uses: codecov/codecov-action@v1
-        with:
-          flags: e2etests  

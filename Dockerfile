@@ -1,3 +1,3 @@
-FROM quay.io/keycloak/keycloak:12.0.1
+FROM quay.io/keycloak/keycloak:12.0.3
 
-ADD src/main/resources/theme/konveyor /opt/jboss/keycloak/themes/konveyor
+ADD target/tackle-keycloak-theme-*.jar /opt/jboss/keycloak/standalone/deployments
