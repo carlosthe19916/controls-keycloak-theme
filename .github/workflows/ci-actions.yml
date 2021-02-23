@@ -35,10 +35,12 @@ jobs:
           -e KEYCLOAK_PASSWORD=admin \
           -e DB_VENDOR=h2 \
           konveyor/tackle-keycloak-theme:test
+
+          sleep 5s && docker logs keycloak
       - name: Keycloak Admin CLI
         uses: carlosthe19916/keycloak-action@0.4
         with:
-          server: http://keycloak:8080/auth
+          server: http://localhost:8080/auth
           username: admin
           password: admin
           kcadm: update realms/master -s loginTheme=konveyor
